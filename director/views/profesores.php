@@ -38,6 +38,7 @@
                                     <th>DUI</th>
                                     <th>CORREO</th>
                                     <th>ESPECIALIDAD</th>
+                                    <th>GRADO</th>
                                     <th>ACTIVIDAD</th>
                                     <th></th>
 
@@ -47,7 +48,10 @@
                             <tbody>
                                 <?php
                                 include("director/includes/db.php");
-                                $result = mysqli_query($conexion, "SELECT * FROM profesores as pr JOIN actividad as ac ON pr.id_estado=ac.id_actividad ");
+                                $result = mysqli_query($conexion, "SELECT * FROM profesores as pr 
+                                JOIN actividad as ac ON pr.id_estado=ac.id_actividad 
+                                JOIN especialidades as esp ON pr.id_especialidad=esp.id_especialidades
+                                JOIN grados as gr ON pr.id_grado=gr.id_grados");
                                 while ($fila = mysqli_fetch_assoc($result)) :
 
                                 ?>
@@ -57,15 +61,16 @@
                                         <td><?php echo $fila['apellidos']; ?></td>
                                         <td><?php echo $fila['dui']; ?></td>
                                         <td><?php echo $fila['correo']; ?></td>
-                                        <td><?php echo $fila['id_especialidad']; ?></td>
+                                        <td><?php echo $fila['especialidad']; ?></td>
+                                        <td><?php echo $fila['descripcion']; ?></td>
                                         <td><?php echo $fila['estado']; ?></td>
 
 
                                         <td>
-                                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editar<?php echo $fila['id']; ?>">
+                                            <button type="button" class="btn btn-warning m-1" data-bs-toggle="modal" data-bs-target="#editar<?php echo $fila['id']; ?>">
                                                 <i class="fa fa-edit "></i></a></button>
 
-                                            <button type="button" class="btn btn-danger" onclick="confirmDelete(<?php echo $fila['id']; ?>, '<?php echo $fila['nombre']; ?>')">
+                                            <button type="button" class="btn btn-danger m-1" onclick="confirmDelete(<?php echo $fila['id']; ?>, '<?php echo $fila['nombre']; ?>')">
                                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                             </button>
                                         </td>
@@ -77,8 +82,14 @@
                             <tfoot>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Nombre</th>
-                                    <th>Office</th>
+                                    <th>NOMBRE</th>
+                                    <th>APELLIDOS</th>
+                                    <th>DUI</th>
+                                    <th>CORREO</th>
+                                    <th>ESPECIALIDAD</th>
+                                    <th>GRADO</th>
+                                    <th>ACTIVIDAD</th>
+                                    <th></th>
 
                                 </tr>
                             </tfoot>

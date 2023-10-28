@@ -2,8 +2,10 @@ $(document).ready(function () {
     var table = $('#dataTableProfe').DataTable({
         lengthMenu: [5, 10, 15, 25],
         scrollX: true,
-        scrollY: 200,
+        scrollY: 300,
         responsive: true,
+        autoWidth: true,
+        autoFill: true,
         buttons: [{
             extend: "excelHtml5",
             text: "<i class='fa-regular fa-file-excel'></i>",
@@ -18,7 +20,7 @@ $(document).ready(function () {
             extend: 'pdfHtml5',
             title: 'Centro Escolar Santa Teresita',
             exportOptions: {
-                columns: [0, 1, 2,5,6]
+                columns: [ 1, 2,3,5,6,7]
             },
             customize: function (doc) {
                 doc.content[0].margin = [50, 0, 50, 30];

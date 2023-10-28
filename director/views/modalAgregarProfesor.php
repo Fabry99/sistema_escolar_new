@@ -48,6 +48,46 @@
                     </div>
 
                     <div class="row">
+                        <div class="col-sm-6">
+                            <div class="mb-3">
+                                <label for="id_estado" class="form-label">Especialidad</label><br>
+                                <select name="id_especialidades" id="id_especialidades" class="form-control">
+                                    <option value="">Selecciona una opción</option>
+                                    <?php
+                                    include("director/includes/db.php");
+
+                                    $sql = "SELECT * FROM especialidades ";
+                                    $resultado = mysqli_query($conexion, $sql);
+                                    while ($consulta = mysqli_fetch_array($resultado)) {
+                                        echo '<option value="' . $consulta['id_especialidades'] . '">' . $consulta['especialidad'] . ' ' . $consulta['nombre'] . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="mb-3">
+                                <label for="id_estado" class="form-label">Grado</label><br>
+                                <select name="id_grados" id="id_grados" class="form-control">
+                                    <option value="">Selecciona una opción</option>
+                                    <?php
+                                    include("director/includes/db.php");
+
+                                    $sql = "SELECT * FROM grados ";
+                                    $resultado = mysqli_query($conexion, $sql);
+                                    while ($consulta = mysqli_fetch_array($resultado)) {
+                                        echo '<option value="' . $consulta['id_grados'] . '">' . $consulta['descripcion'] . ' ' . $consulta['nombre'] . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                    <div class="row">
 
 
                         <div class="col-sm-6">
@@ -67,8 +107,6 @@
                                 </select>
                             </div>
                         </div>
-
-
                     </div>
 
 
@@ -93,9 +131,11 @@
                 var apellidos = $('#apellidos').val().trim();
                 var dui = $('#dui').val().trim();
                 var correo = $('#correo').val().trim();
+                var id_especialidades = $('#id_especialidades').val();
+                var id_grados = $('#id_grados').val();
                 var id_estado = $('#id_estado').val();
 
-                if (nombre === '' || apellidos === '' || dui === '' || correo === '' || id_estado === '') {
+                if (nombre === '' || apellidos === '' || dui === '' || correo === '' || id_especialidades === '' || id_grados === '' || id_estado === '') {
                     Swal.fire({
                         title: 'Error',
                         text: 'Todos los campos son obligatorios',
@@ -125,6 +165,8 @@
                         apellidos: apellidos,
                         dui: dui,
                         correo: correo,
+                        id_especialidades: id_especialidades,
+                        id_grados: id_grados,
                         id_estado: id_estado
                     },
                     success: function(data) {
@@ -133,7 +175,7 @@
                             text: data,
                             icon: 'success',
                             showConfirmButton: false,
-                            timer: '1500'
+                            timer: 1500
                         }).then(function() {
                             window.location = "../../director/views/profesores.php";
                         });
