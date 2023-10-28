@@ -50,7 +50,7 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="mb-3">
-                                <label for="id_estado" class="form-label">Especialidad</label><br>
+                                <label for="id_especialidad" class="form-label">Especialidad</label><br>
                                 <select name="id_especialidades" id="id_especialidades" class="form-control">
                                     <option value="">Selecciona una opción</option>
                                     <?php
@@ -67,7 +67,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="mb-3">
-                                <label for="id_estado" class="form-label">Grado</label><br>
+                                <label for="id_grado" class="form-label">Grado</label><br>
                                 <select name="id_grados" id="id_grados" class="form-control">
                                     <option value="">Selecciona una opción</option>
                                     <?php
@@ -82,11 +82,8 @@
                                 </select>
                             </div>
                         </div>
-
-
-
-
                     </div>
+
                     <div class="row">
 
 

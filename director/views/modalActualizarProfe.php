@@ -12,7 +12,9 @@ while ($fila = $result->fetch_assoc()) {
     $field2name = $fila['apellidos'];
     $field3name = $fila['dui'];
     $field4name = $fila['correo'];
-    $field5name = $fila['id_estado'];
+    $field5name = $fila['id_especialidad'];
+    $field6name = $fila['id_grado'];
+    $field7name = $fila['id_estado'];
 ?>
 
     <div class="modal fade" id="editar<?php echo $fila['id']; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -61,6 +63,45 @@ while ($fila = $result->fetch_assoc()) {
                         </div>
 
                         <div class="row">
+                        <div class="col-sm-6">
+                            <div class="mb-3">
+                                <label for="id_especialidad" class="form-label">Especialidad</label><br>
+                                <select name="id_especialidad" id="id_especialidad<?php echo $fila['id']; ?>" class="form-control">
+                                    <option value="">Selecciona una opción</option>
+                                    <?php
+                                    include("director/includes/db.php");
+
+                                    $sql = "SELECT * FROM especialidades ";
+                                    $resultado = mysqli_query($conexion, $sql);
+                                    while ($consulta = mysqli_fetch_array($resultado)) {
+                                        $selected = ($field6name == $consulta['id_especialidades']) ? 'selected' : '';
+                                        echo '<option value="' . $consulta['id_especialidades'] . '" ' . $selected . '>' . $consulta['especialidad'] . ' ' . $consulta['nombre'] . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="mb-3">
+                                <label for="id_estado" class="form-label">Grado</label><br>
+                                <select name="id_grado" id="id_grado<?php echo $fila['id']; ?>" class="form-control">
+                                    <option value="">Selecciona una opción</option>
+                                    <?php
+                                    include("director/includes/db.php");
+
+                                    $sql = "SELECT * FROM grados ";
+                                    $resultado = mysqli_query($conexion, $sql);
+                                    while ($consulta = mysqli_fetch_array($resultado)) {
+                                        $selected = ($field6name == $consulta['id_grados']) ? 'selected' : '';
+                                        echo '<option value="' . $consulta['id_grados'] . '" ' . $selected . '>' . $consulta['descripcion'] . ' ' . $consulta['nombre'] . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                        <div class="row">
 
                             <div class="col-sm-6">
                                 <div class="mb-3">
@@ -73,7 +114,7 @@ while ($fila = $result->fetch_assoc()) {
                                         $resultado = mysqli_query($conexion, $sql);
 
                                         while ($consulta = mysqli_fetch_array($resultado)) {
-                                            $selected = ($field5name == $consulta['id_actividad']) ? 'selected' : '';
+                                            $selected = ($field7name == $consulta['id_actividad']) ? 'selected' : '';
                                             echo '<option value="' . $consulta['id_actividad'] . '" ' . $selected . '>' . $consulta['estado'] . ' ' . $consulta['nombre'] . '</option>';
                                         }
                                         ?>
