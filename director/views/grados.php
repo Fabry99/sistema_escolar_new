@@ -1,90 +1,117 @@
-<?php include "../includes/header.php"; ?>
+<?php include "../../director/includes/header.php"; ?>
 
 
-<body id="page-top">
+<body>
+    <!-- Button trigger modal -->
 
-    <!-- Begin Page Content -->
-    <div class="container-fluid">
+    <body id="page-top">
 
-        <!-- DataTales Example -->
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Lista de Grados</h6>
-                <br>
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
 
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#grado">
-                    <span class="glyphicon glyphicon-plus"></span> Agregar <i class="fa fa-plus"></i> </a></button>
-            </div>
-            <?php include "form_grado.php"; ?>
+            <!-- DataTales Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Lista de Profesores</h6>
+                    <br>
 
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>Grado</th>
-                                <th>Duracion</th>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#AgregarModal">
+                        <span class="glyphicon glyphicon-plus"></span> Agregar <i class="fa fa-plus-circle" aria-hidden="true"></i> </a></button>
 
-                                <th>Fecha_registro</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
+                </div>
+                <?php include "../../director/views/modalAggGrado.php"; ?>
+               <?php include "../../director/views/modalActualizarGrados.php";?>
 
-                        <tbody>
-                            <?php
-                            require_once("../includes/db.php");
-                            $result = mysqli_query($conexion, "SELECT * FROM grados ");
-                            while ($fila = mysqli_fetch_assoc($result)) :
 
-                            ?>
+
+
+
+                <div class="card-body">
+                    <div class="table-responsive">
+
+                        <table id="dataTableGrados" class="table table-striped" style="width:100%">
+                            <thead>
                                 <tr>
-                                    <td><?php echo $fila['descripcion']; ?></td>
-                                    <td><?php echo $fila['duracion']; ?></td>
-                                    <td><?php echo $fila['fecha']; ?></td>
 
-                                    <td>
-                                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editar<?php echo $fila['id']; ?>">
-                                            <i class="fa fa-edit "></i>
-                                        </button>
-                                        <a href="../includes/eliminar_grad.php?id=<?php echo $fila['id'] ?>" class="btn btn-danger btn-del">
-                                            <i class="fa fa-trash "></i></a>
-                                    </td>
+                                    <th>Grado</th>
+                                    <th>Duracion</th>
+                                    <th>Profesores</th>
+                                    <th></th>
+
                                 </tr>
-                                <?php include "editar_grado.php"; ?>
-                            <?php endwhile; ?>
-                        </tbody>
-                    </table>
+                            </thead>
 
+                            <tbody>
+                                <?php
+                                include("director/includes/db.php");
+                                $result = mysqli_query($conexion, "SELECT *, GROUP_CONCAT(p.nombre ORDER BY p.nombre  SEPARATOR '\n') AS profesores
+                                FROM grados g
+                                LEFT JOIN profesores p ON g.id_grados = p.id_grado AND p.id_estado <> 2
+                                GROUP BY g.id_grados;
+                                
+                                
+                                ");
+                                while ($fila = mysqli_fetch_assoc($result)) :
+                                ?>
+                                    <tr>
+                                        <td><?php echo $fila['descripcion']; ?></td>
+                                        <td><?php echo $fila['duracion']; ?></td>
+                                        <td><?php echo nl2br($fila['profesores']); ?></td>
+                                        <td>
 
+                                            <div class="d-grid gap-2 col-6 mx-auto">
+                                                
+                                                
+                                            </div>
+                                            <button type="button" class="btn btn-warning px-4" data-bs-toggle="modal" data-bs-target="#editar<?php echo $fila['id']; ?>">
+                                                <i class="fa fa-edit "></i></a></button>
 
+                                        </td>
+                                    </tr>
+                                <?php endwhile; ?>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Grado</th>
+                                    <th>Duracion</th>
+                                    <th>Profesores</th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+
+                        </table>
+                        <!-- End of Main Content -->
+
+                    </div>
+                    <!-- End of Content Wrapper -->
 
                 </div>
             </div>
         </div>
-
-    </div>
-    <!-- /.container-fluid -->
-
-    </div>
-    <!-- End of Main Content -->
-
-
-
-
-
-
-    </div>
-    <!-- End of Content Wrapper -->
-
-    </div>
-    <!-- End of Page Wrapper -->
-
-
-
-
-</body>
+    </body>
+    <script>
+        function confirmDelete(id, nombre) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: `Esta acción eliminará a ${nombre}. ¿Estás seguro de eliminar a ${nombre}?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, eliminar',
+                confirmButtonColor: '#3085d6',
+                cancelButtonText: 'Cancelar',
+                cancelButtonColor: '#C4044A'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to the delete URL with the ID
+                    window.location.href = '../../director/views/eliminarProfesor.php?id=' + id;
+                }
+            });
+        }
+    </script>
 
 
-<?php include "../includes/footer.php"; ?>
+    <?php include "../../director/includes/footer.php"; ?>
 
-</html>
+
+
+    </html>

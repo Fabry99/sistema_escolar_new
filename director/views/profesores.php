@@ -111,7 +111,9 @@
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Sí, eliminar',
-                cancelButtonText: 'Cancelar'
+                confirmButtonColor: '#3085d6',
+                cancelButtonText: 'Cancelar',
+                cancelButtonColor: '#C4044A'
             }).then((result) => {
                 if (result.isConfirmed) {
                     // Redirect to the delete URL with the ID
