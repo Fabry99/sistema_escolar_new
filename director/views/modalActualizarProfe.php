@@ -65,7 +65,7 @@ while ($fila = $result->fetch_assoc()) {
                         <div class="row">
                         <div class="col-sm-6">
                             <div class="mb-3">
-                                <label for="id_especialidad" class="form-label">Especialidad</label><br>
+                                <label for="id_especialidad" class="form-label">Materia</label><br>
                                 <select name="id_especialidad" id="id_especialidad<?php echo $fila['id']; ?>" class="form-control">
                                     <option value="">Selecciona una opción</option>
                                     <?php
@@ -74,7 +74,7 @@ while ($fila = $result->fetch_assoc()) {
                                     $sql = "SELECT * FROM especialidades ";
                                     $resultado = mysqli_query($conexion, $sql);
                                     while ($consulta = mysqli_fetch_array($resultado)) {
-                                        $selected = ($field6name == $consulta['id_especialidades']) ? 'selected' : '';
+                                        $selected = ($field5name == $consulta['id_especialidades']) ? 'selected' : '';
                                         echo '<option value="' . $consulta['id_especialidades'] . '" ' . $selected . '>' . $consulta['especialidad'] . ' ' . $consulta['nombre'] . '</option>';
                                     }
                                     ?>

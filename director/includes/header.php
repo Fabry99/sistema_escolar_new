@@ -38,7 +38,7 @@ session_start();
     <script defer src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
     <script defer src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
     <script defer src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" />
@@ -73,7 +73,7 @@ session_start();
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
@@ -88,8 +88,8 @@ session_start();
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="../views/index.php">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Panel</span></a>
+                    <i class="fa-solid fa-house"></i>
+                    <span>Inicio</span></a>
             </li>
 
             <!-- Divider -->
@@ -106,7 +106,7 @@ session_start();
                     <span>Alumnos</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
+                    <div class="py-2 collapse-inner rounded" style="background: #5074dc;">
                         <h6 class="collapse-header">Ver Modulos</h6>
                         <a class="collapse-item" href="../views/alumnos.php">Ver Alumnos</a>
                         <a class="collapse-item" href="../views/calificaciones.php">Ver Calificaciones</a>
@@ -125,8 +125,8 @@ session_start();
                     <span>Profesores</span>
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Ver Modulos</h6>
+                    <div class="py-2 collapse-inner rounded" style="background: #5074dc;">
+                        <h6 class="collapse-header" >Ver Modulos</h6>
                         <a class="collapse-item" href="../views/profesores.php">Ver Profesores</a>
                         <a class="collapse-item" href="../views/calificaciones.php">Asignar Calificaciones</a>
                     </div>
@@ -138,25 +138,19 @@ session_start();
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
+                    <i class="fa-solid fa-book"></i>
                     <span>Otros</span>
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
+                    <div class="py-2 collapse-inner rounded" style="background: #5074dc;">
                         <h6 class="collapse-header">Ver Modulos</h6>
                         <a class="collapse-item" href="../views/grados.php">Grados</a>
-                        <a class="collapse-item" href="../views/especialidades.php">Especialidades</a>
                     </div>
                 </div>
             </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Addons
-            </div>
 
 
 
@@ -197,7 +191,7 @@ session_start();
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <nav class="navbar navbar-expand navbar-light bg-primary topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">

@@ -12,7 +12,7 @@
             <!-- DataTales Example -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Lista de Profesores</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Lista de Grados</h6>
                     <br>
 
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#AgregarModal">
@@ -35,6 +35,7 @@
 
                                     <th>Grado</th>
                                     <th>Duracion</th>
+                                    <th>Cantidad de Alumnos</th>
                                     <th>Profesores</th>
                                     <th></th>
 
@@ -44,27 +45,27 @@
                             <tbody>
                                 <?php
                                 include("director/includes/db.php");
-                                $result = mysqli_query($conexion, "SELECT *, GROUP_CONCAT(p.nombre ORDER BY p.nombre  SEPARATOR '\n') AS profesores
-                                FROM grados g
-                                LEFT JOIN profesores p ON g.id_grados = p.id_grado AND p.id_estado <> 2
-                                GROUP BY g.id_grados;
-                                
-                                
-                                ");
+                                $result = mysqli_query($conexion, "SELECT g.*, COUNT(DISTINCT al.id) AS numero_alumnos, 
+                                GROUP_CONCAT(Distinct p.nombre ORDER BY p.nombre SEPARATOR '\n') AS profesores
+                         FROM grados g
+                         LEFT JOIN profesores p ON g.id_grados = p.id_grado AND p.id_estado <> 2
+                         LEFT JOIN alumnos al ON g.id_grados = al.id_grado
+                         GROUP BY g.id_grados");
                                 while ($fila = mysqli_fetch_assoc($result)) :
                                 ?>
                                     <tr>
                                         <td><?php echo $fila['descripcion']; ?></td>
                                         <td><?php echo $fila['duracion']; ?></td>
-                                        <td><?php echo nl2br($fila['profesores']); ?></td>
+                                        <td><?php echo $fila['numero_alumnos']; ?></td>
+                                        <td style="white-space: pre-line;"><?php echo $fila['profesores']; ?></td>
                                         <td>
 
                                             <div class="d-grid gap-2 col-6 mx-auto">
                                                 
-                                                
-                                            </div>
-                                            <button type="button" class="btn btn-warning px-4" data-bs-toggle="modal" data-bs-target="#editar<?php echo $fila['id']; ?>">
+                                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editar<?php echo $fila['id']; ?>">
                                                 <i class="fa fa-edit "></i></a></button>
+                                            </div>
+                                            
 
                                         </td>
                                     </tr>
@@ -74,6 +75,7 @@
                                 <tr>
                                     <th>Grado</th>
                                     <th>Duracion</th>
+                                    <th>Cantidad de alumnos</th>
                                     <th>Profesores</th>
                                     <th></th>
                                 </tr>

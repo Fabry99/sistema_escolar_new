@@ -5,27 +5,19 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="AgregarModalLabel">Agregar Grado</h1>
+                <h1 class="modal-title fs-5" id="AgregarModalLabel">Agregar Materia</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="myForm" >
+                <form id="myForm">
                     <div class="row">
 
                         <div class="col-sm-6">
                             <div class="mb-3">
-                                <label for="grado" class="form-label">Grado</label>
-                                <input type="text" name="grado" id="grado" class="form-control" required>
+                                <label for="materia" class="form-label">Materia</label>
+                                <input type="text" name="materia" id="materia" class="form-control" required>
                             </div>
                         </div>
-
-                        <div class="col-sm-6">
-                            <div class="mb-3">
-                                <label for="duracion" class="form-label">Duracion</label>
-                                <input type="text" name="duracion" id="duracion" class="form-control" required>
-                            </div>
-                        </div>
-
 
                     </div>
 
@@ -47,11 +39,8 @@
 
             if (!$(this).prop('disabled')) {
                 // Input field validations
-                var grado = $('#grado').val().trim();
-                var duracion = $('#duracion').val().trim();
-
-
-                if (grado === '' || duracion === '') {
+                var materia = $('#materia').val().trim();
+                if (materia === '') {
                     Swal.fire({
                         title: 'Error',
                         text: 'Todos los campos son obligatorios',
@@ -63,11 +52,9 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '../../director/views/agregarGrados.php',
+                    url: '../../director/views/aggMateria.php',
                     data: {
-                        grado: grado,
-                        duracion: duracion,
-     
+                        materia: materia,
                     },
                     success: function(data) {
                         Swal.fire({
@@ -77,7 +64,7 @@
                             showConfirmButton: false,
                             timer: 1500
                         }).then(function() {
-                            window.location = "../../director/views/grados.php";
+                            window.location = "../../director/views/materias.php";
                         });
                     },
                     error: function(xhr, status, error) {
