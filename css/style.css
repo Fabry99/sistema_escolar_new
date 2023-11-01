@@ -43,3 +43,21 @@ p {
 a{
     text-decoration: none;
 }
+
+.login{
+    background: #0056b3;
+}
+
+/* Agrega estas reglas CSS a tu archivo de estilos (style1.css) o dentro de las etiquetas <style> en tu documento HTML */
+
+#container {
+    position: relative;
+}
+
+.bg-danger {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #dc3545; /* Cambia el color de fondo según tus preferencias */
+}

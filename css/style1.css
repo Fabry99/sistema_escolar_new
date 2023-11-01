@@ -1,0 +1,16 @@
+#body{
+background-color: rgba(15, 27, 196, 0.719);
+background: linear-gradient(to right,#066aff, #91a2d8);
+}
+
+
+
+.bg img{
+    border-radius: 20px;
+}
+
+#datos{
+    background: rgba(139, 139, 139, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    border-radius: 20px;
+}

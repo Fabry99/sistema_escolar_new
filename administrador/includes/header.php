@@ -1,18 +1,39 @@
 <?php
 error_reporting(0);
 session_start();
-// $usuario = $_SESSION['usuario'];
-// $permiso = $_SESSION['type'];
-// if ($usuario == null || $usuario == ''  && $permiso == null || $permiso == '') {
 
-//     echo "<script language='JavaScript'>
-//     alert('Error: Debes iniciar sesion primero ');
-//     location.assign('../includes/sesion/login.php');
-//     </script>";
+// Verifica si la sesión existe
+if (isset($_SESSION['last_activity'])) {
+    // Comprueba si ha pasado más de 30 segundos desde la última actividad
+    if (time() - $_SESSION['last_activity'] > 30) {
+        // Cierra la sesión
+        session_unset();
+        session_destroy();
 
-//     die();
-//} 
+        // Muestra un mensaje de sesión expirada en la página
+        echo "<script language='JavaScript'>
+    alert('Error: La sesion ha expirado');
+    window.location.href = '../../index.php';
+    </script>"; // Redirige a la página de inicio de sesión después de 5 segundos
+        exit();
+    }
+} else {
+    // Inicializa la variable last_activity si la sesión no existe
+    $_SESSION['last_activity'] = time();
+}
+
+$usuario = $_SESSION['correo'];
+$permiso = $_SESSION['nivel_acceso'];
+
+if (empty($usuario) || empty($permiso)) {
+    echo "<script language='JavaScript'>
+    alert('Error: Debes iniciar sesión primero');
+    window.location.href = '../../index.php';
+    </script>";
+    exit();
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -46,6 +67,12 @@ session_start();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css">
+
+    <!-- Custom fonts for this template-->
+    <!-- <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet"> -->
+    <!-- <link rel="stylesheet" href="../package/dist/sweetalert2.css"> -->
+    <!-- Custom styles for this template-->
 
     <link href="../../css/sb-admin-2.min.css" rel="stylesheet">
 
@@ -120,7 +147,7 @@ session_start();
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                     <div class="py-2 collapse-inner rounded" style="background: #5074dc;">
-                        <h6 class="collapse-header" >Ver Modulos</h6>
+                        <h6 class="collapse-header">Ver Modulos</h6>
                         <a class="collapse-item" href="../views/profesores.php">Ver Profesores</a>
                         <a class="collapse-item" href="../views/calificaciones.php">Asignar Calificaciones</a>
                     </div>
@@ -242,7 +269,7 @@ session_start();
 
 
                         <?php
-                        include "../../director/includes/db.php";
+                        include "../../administrador/includes/db.php";
 
                         $id = $_GET['id'];
                         $sql = "SELECT  u.id, u.usuario, u.correo, u.password, u.fecha, p.rol FROM users u
@@ -281,4 +308,4 @@ session_start();
                 </nav>
                 <!-- End of Topbar -->
 
-                <?php include "../../director/views/salir.php"; ?>
+                <?php include "../../administrador/views/salir.php"; ?>

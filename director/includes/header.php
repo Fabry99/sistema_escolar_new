@@ -1,18 +1,39 @@
 <?php
 error_reporting(0);
 session_start();
-// $usuario = $_SESSION['usuario'];
-// $permiso = $_SESSION['type'];
-// if ($usuario == null || $usuario == ''  && $permiso == null || $permiso == '') {
 
-//     echo "<script language='JavaScript'>
-//     alert('Error: Debes iniciar sesion primero ');
-//     location.assign('../includes/sesion/login.php');
-//     </script>";
+// Verifica si la sesión existe
+if (isset($_SESSION['last_activity'])) {
+    // Comprueba si ha pasado más de 30 segundos desde la última actividad
+    if (time() - $_SESSION['last_activity'] > 30) {
+        // Cierra la sesión
+        session_unset();
+        session_destroy();
 
-//     die();
-//} 
+        // Muestra un mensaje de sesión expirada en la página
+        echo "<script language='JavaScript'>
+    alert('Error: La sesion ha expirado');
+    window.location.href = '../../index.php';
+    </script>"; // Redirige a la página de inicio de sesión después de 5 segundos
+        exit();
+    }
+} else {
+    // Inicializa la variable last_activity si la sesión no existe
+    $_SESSION['last_activity'] = time();
+}
+
+$usuario = $_SESSION['correo'];
+$permiso = $_SESSION['nivel_acceso'];
+
+if (empty($usuario) || empty($permiso)) {
+    echo "<script language='JavaScript'>
+    alert('Error: Debes iniciar sesión primero');
+    window.location.href = '../../index.php';
+    </script>";
+    exit();
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -126,7 +147,7 @@ session_start();
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                     <div class="py-2 collapse-inner rounded" style="background: #5074dc;">
-                        <h6 class="collapse-header" >Ver Modulos</h6>
+                        <h6 class="collapse-header">Ver Modulos</h6>
                         <a class="collapse-item" href="../views/profesores.php">Ver Profesores</a>
                         <a class="collapse-item" href="../views/calificaciones.php">Asignar Calificaciones</a>
                     </div>
