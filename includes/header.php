@@ -293,4 +293,4 @@ session_start();
                 </nav>
                 <!-- End of Topbar -->
 
-                <?php include "../views/salir.php"; ?>
+                <?php include "../salir.php"; ?>

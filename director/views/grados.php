@@ -10,8 +10,8 @@
         <div class="container-fluid">
 
             <!-- DataTales Example -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
+            <div class="card shadow mb-1">
+                <div class="card-header py-1">
                     <h6 class="m-0 font-weight-bold text-primary">Lista de Grados</h6>
                     <br>
 
@@ -20,7 +20,7 @@
 
                 </div>
                 <?php include "../../director/views/modalAggGrado.php"; ?>
-               <?php include "../../director/views/modalActualizarGrados.php";?>
+                <?php include "../../director/views/modalActualizarGrados.php"; ?>
 
 
 
@@ -58,15 +58,13 @@
                                         <td><?php echo $fila['duracion']; ?></td>
                                         <td><?php echo $fila['numero_alumnos']; ?></td>
                                         <td style="white-space: pre-line;"><?php echo $fila['profesores']; ?></td>
-                                        <td>
 
-                                            <div class="d-grid gap-2 col-6 mx-auto">
-                                                
-                                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editar<?php echo $fila['id']; ?>">
-                                                <i class="fa fa-edit "></i></a></button>
+                                        <td style="text-align: center; vertical-align: middle;">
+                                            <div style="display: flex; justify-content: center;">
+                                                <button type="button" class="btn btn-warning btn-lg" data-bs-toggle="modal" data-bs-target="#editar<?php echo $fila['id']; ?>">
+                                                    <i class="fa fa-edit"></i>
+                                                </button>
                                             </div>
-                                            
-
                                         </td>
                                     </tr>
                                 <?php endwhile; ?>

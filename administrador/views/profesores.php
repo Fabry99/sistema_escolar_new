@@ -10,8 +10,8 @@
         <div class="container-fluid">
 
             <!-- DataTales Example -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
+            <div class="card shadow mb-1">
+                <div class="card-header pt-3">
                     <h6 class="m-0 font-weight-bold text-primary">Lista de Profesores</h6>
                     <br>
 
@@ -45,6 +45,25 @@
                                 </tr>
                             </thead>
 
+                            <style>
+                                .verde{
+                                    background-color: #57D386;
+                                    color: white;
+                                    font-size: 14px;
+                                    padding-left: 9px;
+                                    padding-right: 9px;
+                                    padding-top: 5px;
+                                    padding-bottom: 5px;
+
+                                }
+                                .oscuro{
+                                    background-color: #B9B9B9;
+                                    color: white;
+                                    font-size: 13px;
+                                    padding: 5px;
+                                }
+                            </style>
+
                             <tbody>
                                 <?php
                                 include("administrador/includes/db.php");
@@ -53,6 +72,8 @@
                                 JOIN especialidades as esp ON pr.id_especialidad=esp.id_especialidades
                                 JOIN grados as gr ON pr.id_grado=gr.id_grados");
                                 while ($fila = mysqli_fetch_assoc($result)) :
+                                    $estado = ($fila['id_actividad'] == '1') ? 'Activo' : 'Inactivo';
+                                    $color_clase = ($fila['id_actividad'] == '1') ? 'verde' : 'oscuro';
 
                                 ?>
                                     <tr>
@@ -63,7 +84,7 @@
                                         <td><?php echo $fila['correo']; ?></td>
                                         <td><?php echo $fila['especialidad']; ?></td>
                                         <td><?php echo $fila['descripcion']; ?></td>
-                                        <td><?php echo $fila['estado']; ?></td>
+                                        <td><span class="badge <?php echo $color_clase; ?>"><?php echo $estado; ?></span></td>
 
 
                                         <td>

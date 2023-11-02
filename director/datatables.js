@@ -2,28 +2,36 @@ $(document).ready(function () {
     var table = $('#dataTableProfe').DataTable({
         lengthMenu: [5, 10, 15, 25],
         scrollX: true,
-        scrollY: 300,
+        scrollY: 180,
         responsive: true,
         autoWidth: true,
         autoFill: true,
         order: [[0, 'desc']],
-        buttons: [{
-            extend: "excelHtml5",
-            text: "<i class='fa-regular fa-file-excel'></i>",
-            titleAttr: 'Exportar a Execel',
-            className: 'btn btn-success btn-lg my-3 mx-1',
-
-        },
+        buttons: [
         {
             text: "<i class='fa-solid fa-file-pdf'></i>",
             titleAttr: 'Exportar a PDF',
-            className: 'btn btn-danger btn-lg my-3 mx-1',
+            className: 'btn btn-danger btn-lg ',
             extend: 'pdfHtml5',
             title: 'Centro Escolar Santa Teresita',
             exportOptions: {
                 columns: [1, 2, 3, 5, 6, 7]
             },
             customize: function (doc) {
+                var table = doc.content[1].table;
+                for (var i = 0; i < table.body.length; i++) {
+                    var row = table.body[i];
+                    for (var j = 0; j < row.length; j++) {
+                        var cell = row[j];
+                        if (cell.text === "Activo") {
+                            cell.text = { text: "Activo", color: 'white', fontSize: 12};
+                            cell.fillColor = '#57D386';
+                        } else if (cell.text === "Inactivo") {
+                            cell.text = { text: "Inactivo", color: 'white',fontSize: 12 };
+                            cell.fillColor = '#B9B9B9';
+                        }   
+                    }
+                }
                 doc.content[0].margin = [50, 0, 50, 30];
                 doc.styles.title = {
                     margin: [0, 50, 0, 0],
@@ -306,22 +314,16 @@ $(document).ready(function () {
     var table = $('#dataTableAlumno').DataTable({
         lengthMenu: [5, 10, 15, 25],
         scrollX: true,
-        scrollY: 300,
+        scrollY: 180,
         responsive: true,
         autoWidth: true,
         autoFill: true,
         order: [[1, 'desc']],
-        buttons: [{
-            extend: "excelHtml5",
-            text: "<i class='fa-regular fa-file-excel'></i>",
-            titleAttr: 'Exportar a Execel',
-            className: 'btn btn-success btn-lg my-3 mx-1',
-
-        },
+        buttons: [
         {
             text: "<i class='fa-solid fa-file-pdf'></i>",
             titleAttr: 'Exportar a PDF',
-            className: 'btn btn-danger btn-lg my-3 mx-1',
+            className: 'btn btn-danger btn-lg ',
             extend: 'pdfHtml5',
             title: 'Centro Escolar Santa Teresita',
             exportOptions: {
@@ -599,63 +601,58 @@ $(document).ready(function () {
             "infoEmpty": "No hay datos para mostrar"
         }
     });
-
+    table.buttons().container()
+    .appendTo('#dataTableAlumno_wrapper .col-md-6:eq(0)');
 
 });
 
 
 $(document).ready(function () {
     var table = $('#dataTableGrados').DataTable({
-        dom: 'Bfrtip',
-        buttons: [
-            {
-                text: "<i class='fa-solid fa-file-pdf'></i>",
-                titleAttr: 'Exportar a PDF',
-                className: 'btn btn-danger btn-lg my-3 mx-1',
-                extend: 'pdfHtml5',
-                title: 'Centro Escolar Santa Teresita',
-                exportOptions: {
-                    columns: [0, 1, 2, 3], // Especifica las columnas a incluir en el PDF
-                    format: {
-                        body: function (data) {
-                            var valor = data.toString();
-                            valor = valor.replace(/<br\s*\/?>/gi, "\n");
-                            return valor;
-                        }
-                    }
-                },
-                customize: function (doc) {
-                    doc.content[0].margin = [50, 0, 50, 30];
-                    doc.styles.title = {
-                        margin: [0, 50, 0, 0],
-                        color: 'black',
-                        fontSize: '32',
-                        alignment: 'center',
-
-                    }
-                    doc.styles['td:nth-child(2)'] = {
-                        width: '100px',
-                        'max-width': '100px'
-                    }
-                    doc.styles.tableHeader = {
-
-                        fillColor: '#0F72E2',
-                        color: 'white'
-                    }
-                    doc.content[1].table.widths = Array(doc.content[1].table.body[0].length + 1).join('*').split('');
-                    doc.styles.tableHeader.alignment = 'center';
-                    doc.styles.tableBodyEven.alignment = 'center';
-                    doc.styles.tableBodyOdd.alignment = 'center';
-                },
-            }
-        ],
         lengthMenu: [5, 10, 15, 25],
         scrollX: true,
-        scrollY: 300,
+        scrollY: 180,
         responsive: true,
         autoWidth: true,
         autoFill: true,
         order: [[1, 'desc']],
+        buttons: [
+        {
+            text: "<i class='fa-solid fa-file-pdf'></i>",
+            titleAttr: 'Exportar a PDF',
+            className: 'btn btn-danger btn-lg ',
+            extend: 'pdfHtml5',
+            title: 'Centro Escolar Santa Teresita',
+            exportOptions: {
+                columns: [0, 1, 3, 4, 5, 6]
+            },
+            customize: function (doc) {
+                doc.content[0].margin = [50, 0, 50, 30];
+                doc.styles.title = {
+                    margin: [0, 50, 0, 0],
+                    color: 'black',
+                    fontSize: '32',
+                    alignment: 'center',
+
+                }
+                doc.styles['td:nth-child(2)'] = {
+                    width: '100px',
+                    'max-width': '100px'
+                }
+                doc.styles.tableHeader = {
+
+                    fillColor: '#0F72E2',
+                    color: 'white'
+                }
+                doc.content[1].table.widths = Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+                doc.styles.tableHeader.alignment = 'center';
+                doc.styles.tableBodyEven.alignment = 'center';
+                doc.styles.tableBodyOdd.alignment = 'center';
+            },
+
+            orientation: 'landscape'
+        }
+        ],
         language: {
             "aria": {
                 "sortAscending": "Activar para ordenar la columna de manera ascendente",
@@ -901,71 +898,57 @@ $(document).ready(function () {
             "infoEmpty": "No hay datos para mostrar"
         }
     });
-
     table.buttons().container()
-        .appendTo('#dataTableGrados_wrapper .col-md-6:eq(0)');
-});
+    .appendTo('#dataTableGrados_wrapper .col-md-6:eq(0)');
 
+});
 
 $(document).ready(function () {
     var table = $('#dataTableMaterias').DataTable({
-        dom: 'Bfrtip',
-        buttons: [
-            {
-                text: "<i class='fa-solid fa-file-pdf'></i>",
-                titleAttr: 'Exportar a PDF',
-                className: 'btn btn-danger btn-lg my-3 mx-1',
-                extend: 'pdfHtml5',
-                title: 'Centro Escolar Santa Teresita',
-                exportOptions: {
-                    columns: [0, 1], // Especifica las columnas a incluir en el PDF
-                    format: {
-                        body: function (data, rowIndex, columnIndex) {
-                            // Verifica si estamos en la tercera columna (índice 2)
-                            if (columnIndex === 1) {
-                                var valor = data.toString();
-                                valor = valor.replace(/<br\s*\/?>/gi, "\n");
-                                return valor;
-                            } else {
-                                return data;
-                            }
-                        }
-                    }
-                },
-                customize: function (doc) {
-                    doc.content[0].margin = [50, 0, 50, 30];
-                    doc.styles.title = {
-                        margin: [0, 50, 0, 0],
-                        color: 'black',
-                        fontSize: '32',
-                        alignment: 'center',
-
-                    }
-                    doc.styles['td:nth-child(2)'] = {
-                        width: '100px',
-                        'max-width': '100px'
-                    }
-                    doc.styles.tableHeader = {
-
-                        fillColor: '#0F72E2',
-                        color: 'white'
-                    }
-                    doc.content[1].table.widths = Array(doc.content[1].table.body[0].length + 1).join('*').split('');
-                    doc.styles.tableHeader.alignment = 'center';
-                    doc.styles.tableBodyEven.alignment = 'center';
-                    doc.styles.tableBodyOdd.alignment = 'center';
-                    
-                   
-                },
-            }
-        ],
         lengthMenu: [5, 10, 15, 25],
         scrollX: true,
-        scrollY: 300,
+        scrollY: 180,
         responsive: true,
         autoWidth: true,
         autoFill: true,
         order: [[1, 'desc']],
+        buttons: [
+        {
+            text: "<i class='fa-solid fa-file-pdf'></i>",
+            titleAttr: 'Exportar a PDF',
+            className: 'btn btn-danger btn-lg ',
+            extend: 'pdfHtml5',
+            title: 'Centro Escolar Santa Teresita',
+            exportOptions: {
+                columns: [0, 1, 3, 4, 5, 6]
+            },
+            customize: function (doc) {
+                doc.content[0].margin = [50, 0, 50, 30];
+                doc.styles.title = {
+                    margin: [0, 50, 0, 0],
+                    color: 'black',
+                    fontSize: '32',
+                    alignment: 'center',
+
+                }
+                doc.styles['td:nth-child(2)'] = {
+                    width: '100px',
+                    'max-width': '100px'
+                }
+                doc.styles.tableHeader = {
+
+                    fillColor: '#0F72E2',
+                    color: 'white'
+                }
+                doc.content[1].table.widths = Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+                doc.styles.tableHeader.alignment = 'center';
+                doc.styles.tableBodyEven.alignment = 'center';
+                doc.styles.tableBodyOdd.alignment = 'center';
+            },
+
+            orientation: 'landscape'
+        }
+        ],
         language: {
             "aria": {
                 "sortAscending": "Activar para ordenar la columna de manera ascendente",
@@ -1211,8 +1194,10 @@ $(document).ready(function () {
             "infoEmpty": "No hay datos para mostrar"
         }
     });
-
     table.buttons().container()
-        .appendTo('#dataTableMaterias_wrapper .col-md-6:eq(0)');
+    .appendTo('#dataTableMaterias_wrapper .col-md-6:eq(0)');
+
 });
+
+
 

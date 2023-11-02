@@ -1,5 +1,4 @@
 
-
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
@@ -19,7 +18,7 @@
                 <div class="modal-body">Selecciona "Logout" para cerrar sesion.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <a class="btn btn-primary" href="../includes/sesion/cerrarSesion.php">Logout</a>
+                    <a class="btn btn-primary" href="../../cerrarSesion.php">Logout</a>
                 </div>
             </div>
         </div>

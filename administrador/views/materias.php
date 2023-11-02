@@ -10,8 +10,8 @@
         <div class="container-fluid">
 
             <!-- DataTales Example -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
+            <div class="card shadow mb-2">
+                <div class="card-header pt-3">
                     <h6 class="m-0 font-weight-bold text-primary">Lista de Materias</h6>
                     <br>
 
@@ -52,13 +52,13 @@
                                         <td style="text-align: center; vertical-align: middle;"><?php echo $fila['especialidad']; ?></td>
                                         <td style="white-space: pre-line;"><?php echo $fila['profesores']; ?></td>
                                         <td>
+                                            <button type="button" class="btn btn-warning m-1" data-bs-toggle="modal" data-bs-target="#editar<?php echo $fila['id_especialidades']; ?>">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
 
-                                            <div class="d-grid gap-2 col-6 mx-auto">
-                                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editar<?php echo $fila['id_especialidades']; ?>">
-                                                    <i class="fa fa-edit "></i></a></button>
-                                            </div>
-
-
+                                            <button type="button" class="btn btn-danger m-1" onclick="confirmDelete(<?php echo $fila['id_especialidades']; ?>, '<?php echo $fila['especialidad']; ?>')">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
                                         </td>
                                     </tr>
                                 <?php endwhile; ?>
@@ -95,7 +95,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // Redirect to the delete URL with the ID
-                    window.location.href = '../../administrador/views/eliminarProfesor.php?id=' + id;
+                    window.location.href = '../../administrador/views/eliminarMateria.php?id_especialidades=' + id;
                 }
             });
         }

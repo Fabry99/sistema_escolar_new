@@ -10,8 +10,8 @@
         <div class="container-fluid">
 
             <!-- DataTales Example -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
+            <div class="card shadow mb-1">
+                <div class="card-header pt-3">
                     <h6 class="m-0 font-weight-bold text-primary">Lista de Grados</h6>
                     <br>
 
@@ -20,7 +20,7 @@
 
                 </div>
                 <?php include "../../administrador/views/modalAggGrado.php"; ?>
-               <?php include "../../administrador/views/modalActualizarGrados.php";?>
+                <?php include "../../administrador/views/modalActualizarGrados.php"; ?>
 
 
 
@@ -58,16 +58,18 @@
                                         <td><?php echo $fila['duracion']; ?></td>
                                         <td><?php echo $fila['numero_alumnos']; ?></td>
                                         <td style="white-space: pre-line;"><?php echo $fila['profesores']; ?></td>
+
                                         <td>
+                                            <button type="button" class="btn btn-warning m-1" data-bs-toggle="modal" data-bs-target="#editar<?php echo $fila['id']; ?>">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
 
-                                            <div class="d-grid gap-2 col-6 mx-auto">
-                                                
-                                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editar<?php echo $fila['id']; ?>">
-                                                <i class="fa fa-edit "></i></a></button>
-                                            </div>
-                                            
-
+                                            <button type="button" class="btn btn-danger m-1" onclick="confirmDelete(<?php echo $fila['id_grados']; ?>, '<?php echo $fila['descripcion']; ?>')">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
                                         </td>
+
+
                                     </tr>
                                 <?php endwhile; ?>
                             </tbody>
@@ -105,7 +107,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // Redirect to the delete URL with the ID
-                    window.location.href = '../../administrador/views/eliminarProfesor.php?id=' + id;
+                    window.location.href = '../../administrador/views/eliminarGrado.php?id_grados=' + id;
                 }
             });
         }

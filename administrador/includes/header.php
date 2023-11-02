@@ -3,35 +3,35 @@ error_reporting(0);
 session_start();
 
 // Verifica si la sesión existe
-if (isset($_SESSION['last_activity'])) {
-    // Comprueba si ha pasado más de 30 segundos desde la última actividad
-    if (time() - $_SESSION['last_activity'] > 30) {
-        // Cierra la sesión
-        session_unset();
-        session_destroy();
+// if (isset($_SESSION['last_activity'])) {
+//     // Comprueba si ha pasado más de 30 segundos desde la última actividad
+//     if (time() - $_SESSION['last_activity'] > 30) {
+//         // Cierra la sesión
+//         session_unset();
+//         session_destroy();
 
-        // Muestra un mensaje de sesión expirada en la página
-        echo "<script language='JavaScript'>
-    alert('Error: La sesion ha expirado');
-    window.location.href = '../../index.php';
-    </script>"; // Redirige a la página de inicio de sesión después de 5 segundos
-        exit();
-    }
-} else {
-    // Inicializa la variable last_activity si la sesión no existe
-    $_SESSION['last_activity'] = time();
-}
+//         // Muestra un mensaje de sesión expirada en la página
+//         echo "<script language='JavaScript'>
+//     alert('Error: La sesion ha expirado');
+//     window.location.href = '../../index.php';
+//     </script>"; // Redirige a la página de inicio de sesión después de 5 segundos
+//         exit();
+//     }
+// } else {
+//     // Inicializa la variable last_activity si la sesión no existe
+//     $_SESSION['last_activity'] = time();
+// }
 
-$usuario = $_SESSION['correo'];
-$permiso = $_SESSION['nivel_acceso'];
+// $usuario = $_SESSION['correo'];
+// $permiso = $_SESSION['nivel_acceso'];
 
-if (empty($usuario) || empty($permiso)) {
-    echo "<script language='JavaScript'>
-    alert('Error: Debes iniciar sesión primero');
-    window.location.href = '../../index.php';
-    </script>";
-    exit();
-}
+// if (empty($usuario) || empty($permiso)) {
+//     echo "<script language='JavaScript'>
+//     alert('Error: Debes iniciar sesión primero');
+//     window.location.href = '../../index.php';
+//     </script>";
+//     exit();
+// }
 ?>
 
 <!DOCTYPE html>
@@ -121,9 +121,24 @@ if (empty($usuario) || empty($permiso)) {
                 Interface
             </div>
             <!-- Nav Item - Pages Collapse Menu -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                <i class="fa-solid fa-chalkboard-user"></i>
+                    <span>Directores</span>
+                </a>
+                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
+                    <div class="py-2 collapse-inner rounded" style="background: #5074dc;">
+                        <h6 class="collapse-header">Ver Modulos</h6>
+                        <a class="collapse-item" href="../views/directores.php">Ver Directores</a>
+                    </div>
+                </div>
+            </li>
+
+
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
+                <i class="fa-solid fa-graduation-cap"></i>
                     <span>Alumnos</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -142,14 +157,13 @@ if (empty($usuario) || empty($permiso)) {
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class=" nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
+                <i class="fa-solid fa-user-tie"></i>
                     <span>Profesores</span>
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                     <div class="py-2 collapse-inner rounded" style="background: #5074dc;">
                         <h6 class="collapse-header">Ver Modulos</h6>
                         <a class="collapse-item" href="../views/profesores.php">Ver Profesores</a>
-                        <a class="collapse-item" href="../views/calificaciones.php">Asignar Calificaciones</a>
                     </div>
                 </div>
             </li>
@@ -159,8 +173,8 @@ if (empty($usuario) || empty($permiso)) {
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fa-solid fa-book"></i>
-                    <span>Otros</span>
+                <i class="fa-solid fa-school"></i>
+                    <span>Grados</span>
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="py-2 collapse-inner rounded" style="background: #5074dc;">
@@ -178,8 +192,13 @@ if (empty($usuario) || empty($permiso)) {
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="../views/materias.php">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                <i class="fa-solid fa-book-bookmark"></i>
                     <span>Materias</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../views/administradores.php">
+                <i class="fa-solid fa-computer"></i>
+                    <span>Administradores</span></a>
             </li>
 
 
@@ -308,4 +327,4 @@ if (empty($usuario) || empty($permiso)) {
                 </nav>
                 <!-- End of Topbar -->
 
-                <?php include "../../administrador/views/salir.php"; ?>
+                <?php include "../../salir.php"; ?>

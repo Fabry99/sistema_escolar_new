@@ -10,8 +10,8 @@
         <div class="container-fluid">
 
             <!-- DataTales Example -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
+            <div class="card shadow mb-1">
+                <div class="card-header py-2">
                     <h6 class="m-0 font-weight-bold text-primary">Lista de Alumnos</h6>
                     <br>
 

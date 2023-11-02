@@ -1,4 +1,4 @@
-<?php include "../../director/includes/header.php"; ?>
+<?php include "../../administrador/includes/header.php"; ?>
 
 
 <body>
@@ -11,16 +11,16 @@
 
             <!-- DataTales Example -->
             <div class="card shadow mb-1">
-                <div class="card-header py-2">
-                    <h6 class="m-0 font-weight-bold text-primary">Lista de Profesores</h6>
+                <div class="card-header pt-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Lista de administradores</h6>
                     <br>
 
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#AgregarModal">
                         <span class="glyphicon glyphicon-plus"></span> Agregar <i class="fa fa-plus-circle" aria-hidden="true"></i> </a></button>
 
                 </div>
-                <?php include "../../director/views/modalAgregarProfesor.php"; ?>
-                <?php include "../../director/views/modalActualizarProfe.php"; ?>
+                <?php include "../../administrador/views/modalAgregarAdmin.php"; ?>
+                <?php include "../../administrador/views/modalActuaAdmin.php"; ?>
 
 
 
@@ -29,17 +29,12 @@
                 <div class="card-body">
                     <div class="table-responsive">
 
-                        <table id="dataTableProfe" class="table table-striped" style="width:100%">
+                        <table id="dataTableAdmin" class="table table-striped" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>NOMBRE</th>
-                                    <th>APELLIDOS</th>
-                                    <th>DUI</th>
-                                    <th>CORREO</th>
-                                    <th>ESPECIALIDAD</th>
-                                    <th>GRADO</th>
-                                    <th>ACTIVIDAD</th>
+
+                                    <th>Correo</th>
+                                    <th>Nombre</th>
                                     <th></th>
 
                                 </tr>
@@ -47,52 +42,37 @@
 
                             <tbody>
                                 <?php
-                                include("director/includes/db.php");
-                                $result = mysqli_query($conexion, "SELECT * FROM profesores as pr 
-                                JOIN actividad as ac ON pr.id_estado=ac.id_actividad 
-                                JOIN especialidades as esp ON pr.id_especialidad=esp.id_especialidades
-                                JOIN grados as gr ON pr.id_grado=gr.id_grados");
+                                include("administrador/includes/db.php");
+                                $result = mysqli_query($conexion, "SELECT * FROM administrador");
                                 while ($fila = mysqli_fetch_assoc($result)) :
-
                                 ?>
                                     <tr>
-                                        <td><?php echo $fila['id']; ?></td>
-                                        <td><?php echo $fila['nombre']; ?></td>
-                                        <td><?php echo $fila['apellidos']; ?></td>
-                                        <td><?php echo $fila['dui']; ?></td>
                                         <td><?php echo $fila['correo']; ?></td>
-                                        <td><?php echo $fila['especialidad']; ?></td>
-                                        <td><?php echo $fila['descripcion']; ?></td>
-                                        <td><?php echo $fila['estado']; ?></td>
+                                        <td><?php echo $fila['nombre']; ?></td>
 
-
+                                        
                                         <td>
                                             <button type="button" class="btn btn-warning m-1" data-bs-toggle="modal" data-bs-target="#editar<?php echo $fila['id']; ?>">
-                                                <i class="fa fa-edit "></i></a></button>
+                                                <i class="fa fa-edit"></i>
+                                            </button>
 
                                             <button type="button" class="btn btn-danger m-1" onclick="confirmDelete(<?php echo $fila['id']; ?>, '<?php echo $fila['nombre']; ?>')">
                                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                             </button>
                                         </td>
+
+
                                     </tr>
-
-
                                 <?php endwhile; ?>
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>NOMBRE</th>
-                                    <th>APELLIDOS</th>
-                                    <th>DUI</th>
-                                    <th>CORREO</th>
-                                    <th>ESPECIALIDAD</th>
-                                    <th>GRADO</th>
-                                    <th>ACTIVIDAD</th>
+                                    <th>Correo</th>
+                                    <th>Nombre</th>
                                     <th></th>
-
                                 </tr>
                             </tfoot>
+
                         </table>
                         <!-- End of Main Content -->
 
@@ -117,14 +97,14 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // Redirect to the delete URL with the ID
-                    window.location.href = '../../director/views/eliminarProfesor.php?id=' + id;
+                    window.location.href = '../../administrador/views/eliminarAdmin.php?id=' + id;
                 }
             });
         }
     </script>
 
 
-    <?php include "../../director/includes/footer.php"; ?>
+    <?php include "../../administrador/includes/footer.php"; ?>
 
 
 

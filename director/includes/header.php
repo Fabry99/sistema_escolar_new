@@ -2,37 +2,15 @@
 error_reporting(0);
 session_start();
 
-// Verifica si la sesión existe
-if (isset($_SESSION['last_activity'])) {
-    // Comprueba si ha pasado más de 30 segundos desde la última actividad
-    if (time() - $_SESSION['last_activity'] > 30) {
-        // Cierra la sesión
-        session_unset();
-        session_destroy();
 
-        // Muestra un mensaje de sesión expirada en la página
-        echo "<script language='JavaScript'>
-    alert('Error: La sesion ha expirado');
-    window.location.href = '../../index.php';
-    </script>"; // Redirige a la página de inicio de sesión después de 5 segundos
-        exit();
-    }
-} else {
-    // Inicializa la variable last_activity si la sesión no existe
-    $_SESSION['last_activity'] = time();
-}
-
-$usuario = $_SESSION['correo'];
-$permiso = $_SESSION['nivel_acceso'];
-
-if (empty($usuario) || empty($permiso)) {
-    echo "<script language='JavaScript'>
-    alert('Error: Debes iniciar sesión primero');
-    window.location.href = '../../index.php';
-    </script>";
-    exit();
+if (isset($_SESSION['correo']) && isset($_SESSION['nivel_acceso']) && isset($_SESSION['nombre_usuario'])) {
+    $nombreUsuario = $_SESSION['nombre_usuario'];
+    $nivelAcceso = $_SESSION['nivel_acceso'];
 }
 ?>
+
+
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -67,6 +45,9 @@ if (empty($usuario) || empty($permiso)) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Playfair:opsz,wght@5..1200,300&display=swap" rel="stylesheet">
 
     <!-- Custom fonts for this template-->
     <!-- <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -102,15 +83,33 @@ if (empty($usuario) || empty($permiso)) {
                 <div class=" sidebar-brand-text mx-3">CONTROL ESCOLAR<sup></sup>
                 </div>
             </a>
+            <hr class="sidebar-divider my-0">
+
+            <li class="nav-item active" style="background: linear-gradient(#4B4B4B, #585858);">
+
+                <h1 class="ms-3" style=" text-transform: uppercase; font-size: 15px; color: white;
+                            margin-top: 20px; padding-right: -25px; margin-top: 10px;
+                            font-family: 'Archivo Black', sans-serif;">
+                    <?php echo $nombreUsuario; ?>
+                </h1>
+                <h2 class="ms-3" style="text-transform: uppercase;
+                 font-size: 15px; color: white; margin-top: -8px;
+                 font-family: 'Playfair', serif;"> <?php echo $nivelAcceso; ?></h2>
+
+
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
+
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="../views/index.php">
                     <i class="fa-solid fa-house"></i>
                     <span>Inicio</span></a>
+
+
             </li>
 
             <!-- Divider -->
@@ -123,7 +122,7 @@ if (empty($usuario) || empty($permiso)) {
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fa-solid fa-graduation-cap"></i>
                     <span>Alumnos</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -142,7 +141,7 @@ if (empty($usuario) || empty($permiso)) {
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class=" nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
+                    <i class="fa-solid fa-user-tie"></i>
                     <span>Profesores</span>
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
@@ -159,8 +158,8 @@ if (empty($usuario) || empty($permiso)) {
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fa-solid fa-book"></i>
-                    <span>Otros</span>
+                    <i class="fa-solid fa-school"></i>
+                    <span>Grados</span>
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="py-2 collapse-inner rounded" style="background: #5074dc;">
@@ -178,7 +177,7 @@ if (empty($usuario) || empty($permiso)) {
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="../views/materias.php">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                    <i class="fa-solid fa-book-bookmark"></i>
                     <span>Materias</span></a>
             </li>
 
@@ -245,27 +244,7 @@ if (empty($usuario) || empty($permiso)) {
                         </li>
 
                         <!-- Nav Item - Alerts -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw"></i>
-                                <!-- Counter - Alerts -->
-                                <span class="badge bg-danger" id="count-label"></span>
-                            </a>
-                            <!-- Dropdown - Alerts -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header">
-                                    Alerts Center
-                                </h6>
-                                <div id="notificationContent">
 
-                                </div>
-
-
-
-
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                            </div>
-                        </li>
 
 
                         <?php
@@ -285,8 +264,8 @@ if (empty($usuario) || empty($permiso)) {
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"> <?php echo $_SESSION['usuario']; ?></span>
-                                <img class="img-profile rounded-circle" src="../img/undraw_profile.svg">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                    <img class="img-profile rounded-circle" src="../img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -308,4 +287,4 @@ if (empty($usuario) || empty($permiso)) {
                 </nav>
                 <!-- End of Topbar -->
 
-                <?php include "../../director/views/salir.php"; ?>
+                <?php include "../../salir.php"; ?>
