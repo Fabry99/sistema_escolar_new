@@ -29,11 +29,15 @@ $id_grado_profesor = $_SESSION['id_grado'];
                     </h3>
                     <br>
 
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#AgregarModal">
-                        <span class="glyphicon glyphicon-plus"></span> Agregar <i class="fa fa-plus-circle" aria-hidden="true"></i> </a></button>
-
+                    <form action="PDFprofesor.php" method="post">
+                        <input type="hidden" name="id_grado_profesor"  value="<?php echo $id_grado_profesor; ?> ">
+                        <div class="input-icon">
+                            <input class="btn btn-danger" type="submit" value="Generar PDF">
+                            <span class="bi bi-file-earmark-pdf"></span>
+                        </div>
+                    </form>
                 </div>
-                <?php include "../../director/views/modalAgregarProfesor.php"; ?>
+                <?php include "../../profesores/views/verNotas.php"; ?>
                 <?php include "../../profesores/views/agregarNota.php"; ?>
 
 
@@ -43,7 +47,7 @@ $id_grado_profesor = $_SESSION['id_grado'];
                 <div class="card-body">
                     <div class="table-responsive">
 
-                        <table id="dataTableProfe" class="table table-striped" style="width:100%">
+                        <table id="dataAlumnos" class="table table-striped" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -72,8 +76,12 @@ $id_grado_profesor = $_SESSION['id_grado'];
                                         <td>
 
                                             <button type="button" class="btn btn-primary ingresar-notas" data-bs-toggle="modal" data-bs-target="#IngresarNotasModal" data-id="<?php echo $fila['id']; ?>" data-nombre="<?php echo $fila['nombre'] . ' ' . $fila['apellidos']; ?>">
-                                                Ingresar Notas
+                                                <i class="bi bi-pencil-square"></i> Ingresar Nota
                                             </button>
+                                            <button type="button" class="btn btn-danger m-1" data-bs-toggle="modal" data-bs-target="#editar<?php echo $fila['id']; ?>">
+                                                <i class="bi bi-eye-fill"></i> Ver Notas
+                                            </button>
+
 
 
                                         </td>
@@ -112,6 +120,35 @@ $id_grado_profesor = $_SESSION['id_grado'];
                 });
             });
         </script>
+        <script>
+            $(document).ready(function() {
+                $('.ver-notas').click(function() {
+                    var estudianteId = $(this).data('id');
+                    var estudianteNombre = $(this).data('nombre');
+
+                    // Coloca el nombre del estudiante en el campo de nombre del modal
+                    $('#nombreEstudiante').val(estudianteNombre);
+
+                    // Realiza una solicitud AJAX para cargar las notas del estudiante
+                    $.ajax({
+                        type: 'POST',
+                        url: '../../profesores/views/verNotas.php', // Reemplaza 'cargar_notas.php' con la URL correcta para cargar las notas del estudiante
+                        data: {
+                            estudianteId: estudianteId
+                        },
+                        success: function(data) {
+                            // Inserta los datos de las notas en la tabla dentro del modal
+                            $('#notasTable').html(data);
+                        },
+                        error: function(xhr, status, error) {
+                            alert('Error al cargar las notas: ' + error);
+                        }
+                    });
+                });
+            });
+        </script>
+
+
 
 
     </body>

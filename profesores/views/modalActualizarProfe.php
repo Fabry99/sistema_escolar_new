@@ -31,7 +31,7 @@ while ($fila = $result->fetch_assoc()) {
                             <div class="col-sm-6">
                                 <div class="mb-3">
                                     <label for="nombre" class="form-label">Nombre:</label>
-                                    <input value="<?= $field1name ?>" name="nombre" class="form-control" id="nombre<?php echo $fila['id']; ?>">
+                                    <input value="'<?= $field1name ?>'" name="nombre" class="form-control" id="nombre<?php echo $fila['id']; ?>">
                                 </div>
                             </div>
 
