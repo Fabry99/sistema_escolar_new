@@ -620,11 +620,18 @@ $(document).ready(function () {
         {
             text: "<i class='fa-solid fa-file-pdf'></i>",
             titleAttr: 'Exportar a PDF',
-            className: 'btn btn-danger btn-lg ',
+            className: 'btn btn-danger btn-lg',
             extend: 'pdfHtml5',
             title: 'Centro Escolar Santa Teresita',
             exportOptions: {
-                columns: [0, 1, 3, 4, 5, 6]
+                columns: [0, 1, 2, 3], // Especifica las columnas a incluir en el PDF
+                format: {
+                    body: function (data) {
+                        var valor = data.toString();
+                        valor = valor.replace(/<br\s*\/?>/gi, "\n");
+                        return valor;
+                    }
+                }
             },
             customize: function (doc) {
                 doc.content[0].margin = [50, 0, 50, 30];
@@ -898,8 +905,9 @@ $(document).ready(function () {
             "infoEmpty": "No hay datos para mostrar"
         }
     });
+    
     table.buttons().container()
-    .appendTo('#dataTableGrados_wrapper .col-md-6:eq(0)');
+        .appendTo('#dataTableGrados_wrapper .col-md-6:eq(0)');
 
 });
 

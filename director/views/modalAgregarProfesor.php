@@ -5,7 +5,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="AgregarModalLabel">Modal title</h1>
+                <h1 class="modal-title fs-5" id="AgregarModalLabel">Agregar Profesor</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -46,8 +46,15 @@
 
 
                     </div>
-
+                    
                     <div class="row">
+                    <div class="col-sm-6">
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Contraseña</label>
+                                <input type="password" name="password" id="password" class="form-control" required>
+                            </div>
+                        </div>
+
                         <div class="col-sm-6">
                             <div class="mb-3">
                                 <label for="id_especialidad" class="form-label">Especialidad</label><br>
@@ -65,7 +72,11 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                      
+                    </div>
+
+                    <div class="row">
+                    <div class="col-sm-6">
                             <div class="mb-3">
                                 <label for="id_grado" class="form-label">Grado</label><br>
                                 <select name="id_grados" id="id_grados" class="form-control">
@@ -82,10 +93,6 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="row">
-
 
                         <div class="col-sm-6">
                             <div class="mb-3">
@@ -128,11 +135,12 @@
                 var apellidos = $('#apellidos').val().trim();
                 var dui = $('#dui').val().trim();
                 var correo = $('#correo').val().trim();
+                var password = $('#password').val().trim();
                 var id_especialidades = $('#id_especialidades').val();
                 var id_grados = $('#id_grados').val();
                 var id_estado = $('#id_estado').val();
 
-                if (nombre === '' || apellidos === '' || dui === '' || correo === '' || id_especialidades === '' || id_grados === '' || id_estado === '') {
+                if (nombre === '' || apellidos === '' || dui === '' || correo === '' || password ==='' || id_especialidades === '' || id_grados === '' || id_estado === '') {
                     Swal.fire({
                         title: 'Error',
                         text: 'Todos los campos son obligatorios',
@@ -162,6 +170,7 @@
                         apellidos: apellidos,
                         dui: dui,
                         correo: correo,
+                        password: password,
                         id_especialidades: id_especialidades,
                         id_grados: id_grados,
                         id_estado: id_estado

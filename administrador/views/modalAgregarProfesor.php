@@ -5,13 +5,13 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="AgregarModalLabel">Modal title</h1>
+                <h1 class="modal-title fs-5" id="AgregarModalLabel">Agregar Profesor</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="myForm" onsubmit="return saveData()">
                     <div class="row">
-                    
+
 
                         <div class="col-sm-6">
                             <div class="mb-3">
@@ -51,6 +51,13 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="mb-3">
+                                <label for="password" class="form-label">Contraseña</label>
+                                <input type="password" name="password" id="password" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="mb-3">
                                 <label for="id_especialidad" class="form-label">Especialidad</label><br>
                                 <select name="id_especialidades" id="id_especialidades" class="form-control">
                                     <option value="">Selecciona una opción</option>
@@ -66,6 +73,10 @@
                                 </select>
                             </div>
                         </div>
+
+                    </div>
+
+                    <div class="row">
                         <div class="col-sm-6">
                             <div class="mb-3">
                                 <label for="id_grado" class="form-label">Grado</label><br>
@@ -83,10 +94,6 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="row">
-
 
                         <div class="col-sm-6">
                             <div class="mb-3">
@@ -119,79 +126,93 @@
 </div>
 
 <script type="text/javascript">
-    $(function() {
-        $('#register').click(function(e) {
-            e.preventDefault(); // Prevent the default form submission
+   $(function() {
+    $('#register').click(function(e) {
+        e.preventDefault(); // Prevenir la acción por defecto del formulario
 
-            if (!$(this).prop('disabled')) {
-                // Input field validations
-                var nombre = $('#nombre').val().trim();
-                var apellidos = $('#apellidos').val().trim();
-                var dui = $('#dui').val().trim();
-                var correo = $('#correo').val().trim();
-                var id_especialidades = $('#id_especialidades').val();
-                var id_grados = $('#id_grados').val();
-                var id_estado = $('#id_estado').val();
+        if (!$(this).prop('disabled')) {
+            // Validaciones de campos de entrada
+            var nombre = $('#nombre').val().trim();
+            var apellidos = $('#apellidos').val().trim();
+            var dui = $('#dui').val().trim();
+            var correo = $('#correo').val().trim();
+            var password = $('#password').val().trim();
+            var id_especialidades = $('#id_especialidades').val();
+            var id_grados = $('#id_grados').val();
+            var id_estado = $('#id_estado').val();
 
-                if (nombre === '' || apellidos === '' || dui === '' || correo === '' || id_especialidades === '' || id_grados === '' || id_estado === '') {
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'Todos los campos son obligatorios',
-                        icon: 'error'
-                    });
-                    return;
-                }
-
-                // DUI validation (Custom validation, modify as needed)
-                var duiPattern = /^\d{8}-\d{1}$/;
-                if (!duiPattern.test(dui)) {
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'El DUI no tiene el formato correcto',
-                        icon: 'error'
-                    });
-                    return;
-                }
-
-                $(this).prop('disabled', true); // Disable the button
-
-                $.ajax({
-                    type: 'POST',
-                    url: '../../administrador/views/agregarProfesor.php',
-                    data: {
-                        nombre: nombre,
-                        apellidos: apellidos,
-                        dui: dui,
-                        correo: correo,
-                        id_especialidades: id_especialidades,
-                        id_grados: id_grados,
-                        id_estado: id_estado
-                    },
-                    success: function(data) {
-                        Swal.fire({
-                            title: '¡Mensaje!',
-                            text: data,
-                            icon: 'success',
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then(function() {
-                            window.location = "../../administrador/views/profesores.php";
-                        });
-                    },
-                    error: function(xhr, status, error) {
-                        Swal.fire({
-                            title: 'Error',
-                            text: xhr.responseText,
-                            icon: 'error'
-                        });
-                    },
-                    complete: function() {
-                        $('#register').prop('disabled', false); // Enable the button after request completion
-                    }
+            if (nombre === '' || apellidos === '' || dui === '' || correo ==='' || password === '' || id_especialidades === '' || id_grados === '' || id_estado === '') {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Todos los campos son obligatorios',
+                    icon: 'error'
                 });
+                return;
             }
-        });
+
+            // DUI validation (Validación personalizada, modifícala según sea necesario)
+            var duiPattern = /^\d{8}-\d{1}$/;
+            if (!duiPattern.test(dui)) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'El DUI no tiene el formato correcto',
+                    icon: 'error'
+                });
+                return;
+            }
+
+            // Validación de correo electrónico con una expresión regular
+            var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+            if (!emailPattern.test(correo)) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'El correo no tiene un formato válido',
+                    icon: 'error'
+                });
+                return;
+            }
+
+            $(this).prop('disabled', true); // Deshabilitar el botón
+
+            $.ajax({
+                type: 'POST',
+                url: '../../administrador/views/agregarProfesor.php',
+                data: {
+                    nombre: nombre,
+                    apellidos: apellidos,
+                    dui: dui,
+                    correo: correo,
+                    password: password,
+                    id_especialidades: id_especialidades,
+                    id_grados: id_grados,
+                    id_estado: id_estado
+                },
+                success: function(data) {
+                    Swal.fire({
+                        title: '¡Mensaje!',
+                        text: data,
+                        icon: 'success',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(function() {
+                        window.location = "../../administrador/views/profesores.php";
+                    });
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        title: 'Error',
+                        text: xhr.responseText,
+                        icon: 'error'
+                    });
+                },
+                complete: function() {
+                    $('#register').prop('disabled', false); // Habilitar el botón después de completar la solicitud
+                }
+            });
+        }
     });
+});
+
 </script>
 
 

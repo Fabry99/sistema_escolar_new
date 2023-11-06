@@ -620,27 +620,20 @@ $(document).ready(function () {
         {
             text: "<i class='fa-solid fa-file-pdf'></i>",
             titleAttr: 'Exportar a PDF',
-            className: 'btn btn-danger btn-lg ',
+            className: 'btn btn-danger btn-lg',
             extend: 'pdfHtml5',
             title: 'Centro Escolar Santa Teresita',
             exportOptions: {
-                columns: [1, 2, 3, 5, 6, 7]
-            },
-            customize: function (doc) {
-                var table = doc.content[1].table;
-                for (var i = 0; i < table.body.length; i++) {
-                    var row = table.body[i];
-                    for (var j = 0; j < row.length; j++) {
-                        var cell = row[j];
-                        if (cell.text === "Activo") {
-                            cell.text = { text: "Activo", color: 'white', fontSize: 12};
-                            cell.fillColor = '#57D386';
-                        } else if (cell.text === "Inactivo") {
-                            cell.text = { text: "Inactivo", color: 'white',fontSize: 12 };
-                            cell.fillColor = '#B9B9B9';
-                        }   
+                columns: [0, 1, 2, 3], // Especifica las columnas a incluir en el PDF
+                format: {
+                    body: function (data) {
+                        var valor = data.toString();
+                        valor = valor.replace(/<br\s*\/?>/gi, "\n");
+                        return valor;
                     }
                 }
+            },
+            customize: function (doc) {
                 doc.content[0].margin = [50, 0, 50, 30];
                 doc.styles.title = {
                     margin: [0, 50, 0, 0],
@@ -912,9 +905,10 @@ $(document).ready(function () {
             "infoEmpty": "No hay datos para mostrar"
         }
     });
-
+    
     table.buttons().container()
         .appendTo('#dataTableGrados_wrapper .col-md-6:eq(0)');
+
 });
 
 

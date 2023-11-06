@@ -1,37 +1,46 @@
 <?php
 error_reporting(0);
 session_start();
+if (!isset($_SESSION['nivel_acceso']) || $_SESSION['nivel_acceso'] !== 'administrador') {
+    // El usuario no tiene permiso para acceder a esta página, muestra un mensaje de error y redirige a la página anterior.
+    echo "<script language='JavaScript'>
+    alert('Error: Usted No Tiene Permiso Para Acceder A Esta Página');
+    window.history.go(-1); // Regresa a la página anterior en la historia del navegador
+    </script>";
+    // Finaliza la ejecución del script
+    exit();
+}
+$nombreUsuario = $_SESSION['nombre_usuario'];
+$nivelAcceso = $_SESSION['nivel_acceso'];
+if (isset($_SESSION['last_activity'])) {
+    // Comprueba si ha pasado más de 30 segundos desde la última actividad
+    if (time() - $_SESSION['last_activity'] > 3000) {
+        // Cierra la sesión
+        session_unset();
+        session_destroy();
 
-// Verifica si la sesión existe
-// if (isset($_SESSION['last_activity'])) {
-//     // Comprueba si ha pasado más de 30 segundos desde la última actividad
-//     if (time() - $_SESSION['last_activity'] > 30) {
-//         // Cierra la sesión
-//         session_unset();
-//         session_destroy();
+        // Muestra un mensaje de sesión expirada en la página
+        echo "<script language='JavaScript'>
+    alert('Error: La sesion ha expirado');
+    window.location.href = '../../index.php';
+    </script>"; // Redirige a la página de inicio de sesión después de 5 segundos
+        exit();
+    }
+} else {
+    // Inicializa la variable last_activity si la sesión no existe
+    $_SESSION['last_activity'] = time();
+}
 
-//         // Muestra un mensaje de sesión expirada en la página
-//         echo "<script language='JavaScript'>
-//     alert('Error: La sesion ha expirado');
-//     window.location.href = '../../index.php';
-//     </script>"; // Redirige a la página de inicio de sesión después de 5 segundos
-//         exit();
-//     }
-// } else {
-//     // Inicializa la variable last_activity si la sesión no existe
-//     $_SESSION['last_activity'] = time();
-// }
+$usuario = $_SESSION['correo'];
+$permiso = $_SESSION['nivel_acceso'];
 
-// $usuario = $_SESSION['correo'];
-// $permiso = $_SESSION['nivel_acceso'];
-
-// if (empty($usuario) || empty($permiso)) {
-//     echo "<script language='JavaScript'>
-//     alert('Error: Debes iniciar sesión primero');
-//     window.location.href = '../../index.php';
-//     </script>";
-//     exit();
-// }
+if (empty($usuario) || empty($permiso)) {
+    echo "<script language='JavaScript'>
+    alert('Error: Debes iniciar sesión primero');
+    window.location.href = '../../index.php';
+    </script>";
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -67,6 +76,8 @@ session_start();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Playfair:opsz,wght@5..1200,300&display=swap" rel="stylesheet">
+
 
     <!-- Custom fonts for this template-->
     <!-- <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -102,6 +113,22 @@ session_start();
                 <div class=" sidebar-brand-text mx-3">CONTROL ESCOLAR<sup></sup>
                 </div>
             </a>
+            <hr class="sidebar-divider my-0">
+
+            <li class="nav-item active" style="background: linear-gradient(#4B4B4B, #585858);">
+                <h1 class="ms-2" style=" text-transform: uppercase; font-size: 15px; color: white;
+                            margin-top: 20px; padding-right: -20px; margin-top: 10px;
+                            font-family: 'Archivo Black', sans-serif;">
+                    <?php echo $nombreUsuario; ?>
+                </h1>
+                <h2 class="ms-2" style="font-size: 15px; color: white; margin-top: -8px; 
+                font-family: 'Playfair', serif;">
+                    <?php echo ucfirst($nivelAcceso); ?>
+                </h2>
+
+
+
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
@@ -124,7 +151,7 @@ session_start();
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                <i class="fa-solid fa-chalkboard-user"></i>
+                    <i class="fa-solid fa-chalkboard-user"></i>
                     <span>Directores</span>
                 </a>
                 <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
@@ -138,15 +165,13 @@ session_start();
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fa-solid fa-graduation-cap"></i>
+                    <i class="fa-solid fa-graduation-cap"></i>
                     <span>Alumnos</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="py-2 collapse-inner rounded" style="background: #5074dc;">
                         <h6 class="collapse-header">Ver Modulos</h6>
                         <a class="collapse-item" href="../views/alumnos.php">Ver Alumnos</a>
-                        <a class="collapse-item" href="../views/calificaciones.php">Ver Calificaciones</a>
-
                     </div>
                 </div>
             </li>
@@ -157,7 +182,7 @@ session_start();
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class=" nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-                <i class="fa-solid fa-user-tie"></i>
+                    <i class="fa-solid fa-user-tie"></i>
                     <span>Profesores</span>
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
@@ -173,7 +198,7 @@ session_start();
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-                <i class="fa-solid fa-school"></i>
+                    <i class="fa-solid fa-school"></i>
                     <span>Grados</span>
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -192,12 +217,12 @@ session_start();
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="../views/materias.php">
-                <i class="fa-solid fa-book-bookmark"></i>
+                    <i class="fa-solid fa-book-bookmark"></i>
                     <span>Materias</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="../views/administradores.php">
-                <i class="fa-solid fa-computer"></i>
+                    <i class="fa-solid fa-computer"></i>
                     <span>Administradores</span></a>
             </li>
 
@@ -264,27 +289,6 @@ session_start();
                         </li>
 
                         <!-- Nav Item - Alerts -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw"></i>
-                                <!-- Counter - Alerts -->
-                                <span class="badge bg-danger" id="count-label"></span>
-                            </a>
-                            <!-- Dropdown - Alerts -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header">
-                                    Alerts Center
-                                </h6>
-                                <div id="notificationContent">
-
-                                </div>
-
-
-
-
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                            </div>
-                        </li>
 
 
                         <?php
@@ -309,10 +313,7 @@ session_start();
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
-                                </a>
+
 
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">

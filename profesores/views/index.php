@@ -53,6 +53,7 @@ $id_grado_profesor = $_SESSION['id_grado'];
                                     <th>ID</th>
                                     <th>NOMBRE</th>
                                     <th>APELLIDOS</th>
+                                    <th>EDAD</th>
                                     <th></th>
                                     <!-- Agrega o elimina columnas según corresponda -->
                                 </tr>
@@ -71,12 +72,13 @@ $id_grado_profesor = $_SESSION['id_grado'];
                                         <td><?php echo $fila['id']; ?></td>
                                         <td><?php echo $fila['nombre']; ?></td>
                                         <td><?php echo $fila['apellidos']; ?></td>
+                                        <td><?php echo $fila['edad']; ?></td>
                                         <!-- Imprime aquí más columnas si es necesario -->
 
                                         <td>
 
                                             <button type="button" class="btn btn-primary ingresar-notas" data-bs-toggle="modal" data-bs-target="#IngresarNotasModal" data-id="<?php echo $fila['id']; ?>" data-nombre="<?php echo $fila['nombre'] . ' ' . $fila['apellidos']; ?>">
-                                                <i class="bi bi-pencil-square"></i> Ingresar Nota
+                                                <i class="bi bi-pencil-square"></i> Asignar Nota
                                             </button>
                                             <button type="button" class="btn btn-danger m-1" data-bs-toggle="modal" data-bs-target="#editar<?php echo $fila['id']; ?>">
                                                 <i class="bi bi-eye-fill"></i> Ver Notas

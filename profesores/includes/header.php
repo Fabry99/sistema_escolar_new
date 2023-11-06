@@ -1,11 +1,46 @@
 <?php
 error_reporting(0);
 session_start();
+if (!isset($_SESSION['nivel_acceso']) || $_SESSION['nivel_acceso'] !== 'profesor') {
+    // El usuario no tiene permiso para acceder a esta página, muestra un mensaje de error y redirige a la página anterior.
+    echo "<script language='JavaScript'>
+    alert('Error: Usted No Tiene Permiso Para Acceder A Esta Página');
+    window.history.go(-1); // Regresa a la página anterior en la historia del navegador
+    </script>";
+    // Finaliza la ejecución del script
+    exit();
+}
+$materia =   $_SESSION['id_especialidades'];
+$nombreUsuario = $_SESSION['nombre_usuario'];
+$nivelAcceso = $_SESSION['nivel_acceso'];
+if (isset($_SESSION['last_activity'])) {
+    // Comprueba si ha pasado más de 30 segundos desde la última actividad
+    if (time() - $_SESSION['last_activity'] > 3000) {
+        // Cierra la sesión
+        session_unset();
+        session_destroy();
 
+        // Muestra un mensaje de sesión expirada en la página
+        echo "<script language='JavaScript'>
+    alert('Error: La sesion ha expirado');
+    window.location.href = '../../index.php';
+    </script>"; // Redirige a la página de inicio de sesión después de 5 segundos
+        exit();
+    }
+} else {
+    // Inicializa la variable last_activity si la sesión no existe
+    $_SESSION['last_activity'] = time();
+}
 
-if (isset($_SESSION['correo']) && isset($_SESSION['nivel_acceso']) && isset($_SESSION['nombre_usuario'])) {
-    $nombreUsuario = $_SESSION['nombre_usuario'];
-    $nivelAcceso = $_SESSION['nivel_acceso'];
+$usuario = $_SESSION['correo'];
+$permiso = $_SESSION['nivel_acceso'];
+
+if (empty($usuario) || empty($permiso)) {
+    echo "<script language='JavaScript'>
+    alert('Error: Debes iniciar sesión primero');
+    window.location.href = '../../index.php';
+    </script>";
+    exit();
 }
 ?>
 
@@ -92,9 +127,14 @@ if (isset($_SESSION['correo']) && isset($_SESSION['nivel_acceso']) && isset($_SE
                             font-family: 'Archivo Black', sans-serif;">
                     <?php echo $nombreUsuario; ?>
                 </h1>
-                <h2 class="ms-3" style="text-transform: uppercase;
-                 font-size: 15px; color: white; margin-top: -8px;
-                 font-family: 'Playfair', serif;"> <?php echo $nivelAcceso; ?></h2>
+                <h2 class="ms-3" style="font-size: 15px; color: white; margin-top: -8px; 
+                font-family: 'Playfair', serif;">
+                    <?php echo ucfirst($nivelAcceso); ?>
+                </h2>
+                <h2 class="ms-3" style="font-size: 15px; color: white; margin-top: -8px; 
+                font-family: 'Playfair', serif;">
+                    <?php echo "Materia: " . $_SESSION['especialidad'];?>
+                </h2>
 
 
             </li>
@@ -120,20 +160,7 @@ if (isset($_SESSION['correo']) && isset($_SESSION['nivel_acceso']) && isset($_SE
                 Interface
             </div> -->
             <!-- Nav Item - Pages Collapse Menu -->
-            <!-- <li class="nav-item" style="margin-bottom: 50px;">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fa-solid fa-graduation-cap"></i>
-                    <span>Grado Asignado</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="py-2 collapse-inner rounded" style="background: #5074dc;">
-                        <h6 class="collapse-header">Ver Modulos</h6>
-                        <a class="collapse-item" href="../views/tablaAlumnos.php"><?php
-                                                                                    $nombreUsuario = $_SESSION['grados'];
-                                                                                    echo $nombreUsuario; ?></a>
-                    </div>
-                </div>
-            </li> -->
+
 
 
 
@@ -168,7 +195,7 @@ if (isset($_SESSION['correo']) && isset($_SESSION['nivel_acceso']) && isset($_SE
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                     Logout
                 </a>
-               
+
             </li>
 
 
@@ -252,10 +279,6 @@ if (isset($_SESSION['correo']) && isset($_SESSION['nivel_acceso']) && isset($_SE
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
-                                </a>
 
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
